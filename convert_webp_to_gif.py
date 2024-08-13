@@ -6,7 +6,6 @@ def convert_webp_to_gif(input_path, output_path):
     """将单个 .webp 文件转换为 .gif 文件，并动态调整帧率和持续时间"""
     try:
         images = imageio.mimread(input_path, memtest=False)
-        reader = imageio.get_reader(input_path, format='webp')
     except Exception as e:
         print(f"Failed to read {input_path}: {e}")
         return
@@ -14,7 +13,9 @@ def convert_webp_to_gif(input_path, output_path):
     try:
         reduction_factor = 3
         reduced_images = images[::reduction_factor]
-        frame_duration = abs(reader.get_meta_data(0)['time']-reader.get_meta_data(1)['time'])*reduction_factor
+
+        # 动态调整 duration，确保总时长为 total_duration
+        frame_duration = 1 / (len(reduced_images) / (len(images) / 30))
 
         # 保存为 .gif 文件
         imageio.mimsave(output_path, reduced_images, format='GIF', duration=frame_duration)
@@ -46,7 +47,8 @@ def convert_folder_webps_to_gifs(input_folder, output_folder):
     print(f"All .webp files have been converted and saved to {output_folder}.")
 
 if __name__ == "__main__":
-    sticker_name = 'biao2_by_TgEmojiBot'  # 替换为实际的 sticker 名称
+
+    sticker_name = 'biaoqing82'  # 替换为实际的 sticker 名称
     input_folder = f'{sticker_name}'
     output_folder = f'{sticker_name}_gifs'
     convert_folder_webps_to_gifs(input_folder, output_folder)
