@@ -4,66 +4,8 @@ import requests
 from telegram import Bot
 from tqdm import tqdm
 import imageio
-
-
-async def download_stickers(bot_token, sticker_set_name, output_folder):
-    """从 Telegram 下载贴纸包"""
-    try:
-        bot = Bot(token=bot_token)
-    except Exception as e:
-        print(f"Failed to create bot: {e}")
-        return
-
-    try:
-        sticker_set = await bot.get_sticker_set(name=sticker_set_name)
-    except Exception as e:
-        print(f"Failed to get sticker set '{sticker_set_name}': {e}")
-        return
-
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
-
-    for sticker in tqdm(sticker_set.stickers, desc="Downloading Stickers"):
-        file_id = sticker.file_id
-        try:
-            file = await bot.get_file(file_id)
-            file_path = os.path.join(output_folder, f'{sticker.file_unique_id}.webp')
-
-            try:
-                file_url = file.file_path
-                response = requests.get(file_url)
-                response.raise_for_status()  # 检查请求是否成功
-
-                with open(file_path, 'wb') as f:
-                    f.write(response.content)
-            except requests.RequestException as e:
-                print(f"Failed to download the file for sticker {file_id}: {e}")
-                continue
-
-        except Exception as e:
-            print(f"Failed to process sticker {file_id}: {e}")
-            continue
-
-    print(f"Stickers from '{sticker_set_name}' have been downloaded and saved to {output_folder}.")
-
-
-def convert_webp_to_gif(input_path, output_path):
-    """将单个 .webp 文件转换为 .gif 文件，并动态调整帧率和持续时间"""
-    try:
-        images = imageio.mimread(input_path, memtest=False)
-    except Exception as e:
-        print(f"Failed to read {input_path}: {e}")
-        return
-
-    try:
-        reduction_factor = 3
-        reduced_images = images[::reduction_factor]
-        frame_duration = 1 / (len(reduced_images) / (len(images) / 30))
-        imageio.mimsave(output_path, reduced_images, format='GIF', duration=frame_duration)
-    except Exception as e:
-        print(f"Failed to convert {input_path} to GIF: {e}")
-        return
-
+from convert_webp_to_gif import convert_webp_to_gif
+from download_sticker import download_stickers
 
 def convert_folder_webps_to_gifs(input_folder, output_folder):
     """将文件夹中的所有 .webp 文件转换为 .gif，并保存到新的文件夹中"""

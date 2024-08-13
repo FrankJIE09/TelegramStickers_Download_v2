@@ -6,6 +6,7 @@ def convert_webp_to_gif(input_path, output_path):
     """将单个 .webp 文件转换为 .gif 文件，并动态调整帧率和持续时间"""
     try:
         images = imageio.mimread(input_path, memtest=False)
+        reader = imageio.get_reader(input_path, format='webp')
     except Exception as e:
         print(f"Failed to read {input_path}: {e}")
         return
@@ -13,9 +14,7 @@ def convert_webp_to_gif(input_path, output_path):
     try:
         reduction_factor = 3
         reduced_images = images[::reduction_factor]
-
-        # 动态调整 duration，确保总时长为 total_duration
-        frame_duration = 1 / (len(reduced_images) / (len(images) / 30))
+        frame_duration = abs(reader.get_meta_data(0)['time']-reader.get_meta_data(1)['time'])*reduction_factor
 
         # 保存为 .gif 文件
         imageio.mimsave(output_path, reduced_images, format='GIF', duration=frame_duration)
