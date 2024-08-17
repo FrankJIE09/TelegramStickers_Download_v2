@@ -17,7 +17,8 @@ async def download_stickers(bot_token, sticker_set_name, output_folder):
         sticker_set = await bot.get_sticker_set(name=sticker_set_name)
     except Exception as e:
         print(f"Failed to get sticker set '{sticker_set_name}': {e}")
-        return
+        exit()
+
 
     try:
         if not os.path.exists(output_folder):
@@ -33,9 +34,10 @@ async def download_stickers(bot_token, sticker_set_name, output_folder):
             file_path = os.path.join(output_folder, f'{sticker.file_unique_id}.webp')
 
             try:
+                # Set up the proxies
                 # 下载文件
                 file_url = file.file_path
-                response = requests.get(file_url)
+                response = requests.get(file_url, timeout=10)
                 response.raise_for_status()  # 检查请求是否成功
 
                 # 将文件保存到本地
@@ -52,7 +54,8 @@ async def download_stickers(bot_token, sticker_set_name, output_folder):
     print(f"Stickers from '{sticker_set_name}' have been downloaded and saved to {output_folder}.")
 
 if __name__ == "__main__":
-    bot_token = '5640863500:AAGgnofomUMC1zn9c8CmW5CnfJQhBtX7LUk'  # 替换为实际的 bot token
+    bot_token = ' 7046331816: AAF0Rm_gdn5IKo842Z2fF12YFewqpZ6EsXg'  # 替换为实际的 bot token
+    # 7046331816: AAF0Rm_gdn5IKo842Z2fF12YFewqpZ6EsXg
     sticker_set_name = 'biao2_by_TgEmojiBot'  # 替换为实际的 sticker 名称
     output_folder = f'{sticker_set_name}'
     asyncio.run(download_stickers(bot_token, sticker_set_name, output_folder))
