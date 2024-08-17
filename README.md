@@ -1,6 +1,4 @@
-以下是为你的下载代码编写的 `README.md` 文件，包含中英文版本：
-
----
+https://www.bilibili.com/video/BV1oAWFe5ESN/?vd_source=c0fd76f09c2aa5aa5a10586f339477f8
 
 # Telegram Sticker Downloader
 
