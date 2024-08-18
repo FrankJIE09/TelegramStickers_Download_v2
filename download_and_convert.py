@@ -1,11 +1,9 @@
 import os
 import asyncio
-import requests
-from telegram import Bot
 from tqdm import tqdm
-import imageio
 from convert_webp_to_gif import convert_webp_to_gif
 from download_sticker import download_stickers
+
 
 def convert_folder_webps_to_gifs(input_folder, output_folder):
     """将文件夹中的所有 .webp 文件转换为 .gif，并保存到新的文件夹中"""
@@ -55,6 +53,7 @@ async def process_sticker_sets(bot_token, urls_file):
 if __name__ == "__main__":
     # 7046331816: AAF0Rm_gdn5IKo842Z2fF12YFewqpZ6EsXg
     # 5640863500:AAGgnofomUMC1zn9c8CmW5CnfJQhBtX7LUk
-    bot_token = '7046331816: AAF0Rm_gdn5IKo842Z2fF12YFewqpZ6EsXg'  # 替换为实际的 bot token
+
+    bot_token = '5640863500:AAGgnofomUMC1zn9c8CmW5CnfJQhBtX7LUk'  # 替换为实际的 bot token
     urls_file = 'url.txt'
     asyncio.run(process_sticker_sets(bot_token, urls_file))

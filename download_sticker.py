@@ -12,6 +12,7 @@ async def download_stickers(bot_token, sticker_set_name, output_folder):
     except Exception as e:
         print(f"Failed to create bot: {e}")
         return
+    sticker_set = await bot.get_sticker_set(name=sticker_set_name)
 
     try:
         sticker_set = await bot.get_sticker_set(name=sticker_set_name)
@@ -54,7 +55,7 @@ async def download_stickers(bot_token, sticker_set_name, output_folder):
     print(f"Stickers from '{sticker_set_name}' have been downloaded and saved to {output_folder}.")
 
 if __name__ == "__main__":
-    bot_token = ' 7046331816: AAF0Rm_gdn5IKo842Z2fF12YFewqpZ6EsXg'  # 替换为实际的 bot token
+    bot_token = '7046331816: AAF0Rm_gdn5IKo842Z2fF12YFewqpZ6EsXg'  # 替换为实际的 bot token
     # 7046331816: AAF0Rm_gdn5IKo842Z2fF12YFewqpZ6EsXg
     sticker_set_name = 'biao2_by_TgEmojiBot'  # 替换为实际的 sticker 名称
     output_folder = f'{sticker_set_name}'

@@ -1,0 +1,7 @@
+requests
+python-telegram-bot>=13.0,<14.0
+imageio
+moviepy
+pillow
+imageio[ffmpeg]
+imageio[pyav]
