@@ -1,7 +1,8 @@
-requests
+requests==2.32.3
 python-telegram-bot==21.4
-imageio
-moviepy
-pillow
-imageio[ffmpeg]
-imageio[pyav]
+imageio==2.35.0
+moviepy==1.0.3
+pillow==10.4.0
+imageio[ffmpeg]== 0.5.1
+imageio[pyav]==12.3.0
+
