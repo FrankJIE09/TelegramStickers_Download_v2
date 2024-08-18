@@ -1,7 +1,7 @@
 import os
 import imageio
 from tqdm import tqdm
-
+import sys
 def convert_webp_to_gif(input_path, output_path):
     """将单个 .webp 文件转换为 .gif 文件，并动态调整帧率和持续时间"""
     try:
@@ -46,9 +46,23 @@ def convert_folder_webps_to_gifs(input_folder, output_folder):
 
     print(f"All .webp files have been converted and saved to {output_folder}.")
 
-if __name__ == "__main__":
 
-    sticker_name = 'biaoqing82'  # 替换为实际的 sticker 名称
-    input_folder = f'{sticker_name}'
-    output_folder = f'{sticker_name}_gifs'
-    convert_folder_webps_to_gifs(input_folder, output_folder)
+if __name__ == "__main__":
+    urls_file = "url.txt"
+
+    if not os.path.isfile(urls_file):
+        print(f"The file {urls_file} does not exist.")
+        sys.exit(1)
+
+    with open(urls_file, 'r') as file:
+        for line in file:
+            sticker_set_name = line.strip().split('/')[-1]
+            output_folder = f"{sticker_set_name}_gifs"
+
+            # Skip if the GIFs folder already exists
+            if os.path.exists(output_folder):
+                print(f"Skipping {sticker_set_name}: {output_folder} already exists.")
+                continue
+
+            convert_webp_to_gif(sticker_set_name,output_folder)
+
