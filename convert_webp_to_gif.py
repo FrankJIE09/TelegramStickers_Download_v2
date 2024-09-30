@@ -1,13 +1,20 @@
 import os
 import imageio
 from tqdm import tqdm
+import subprocess
+
 
 def convert_webp_to_gif(input_path, output_path):
     """将单个 .webp 文件转换为 .gif 文件，并动态调整帧率和持续时间"""
     try:
         images = imageio.mimread(input_path, memtest=False)
     except Exception as e:
-        print(f"Failed to read {input_path}: {e}")
+        try:
+            # 使用 ffmpeg 进行转换
+            subprocess.run(['ffmpeg', '-i', input_path, output_path], check=True)
+            print(f"Converted {input_path} to {output_path} using ffmpeg.")
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to convert {input_path} to {output_path} using ffmpeg: {e}")
         return
 
     try:
@@ -22,6 +29,7 @@ def convert_webp_to_gif(input_path, output_path):
     except Exception as e:
         print(f"Failed to convert {input_path} to GIF: {e}")
         return
+
 
 def convert_folder_webps_to_gifs(input_folder, output_folder):
     """将文件夹中的所有 .webp 文件转换为 .gif，并保存到新的文件夹中"""
@@ -46,14 +54,8 @@ def convert_folder_webps_to_gifs(input_folder, output_folder):
 
     print(f"All .webp files have been converted and saved to {output_folder}.")
 
+
 if __name__ == "__main__":
-
-    # sticker_name = 'Sylvanianss'  # 替换为实际的 sticker 名称
-    # input_folder = f'{sticker_name}'
-    # output_folder = f'{sticker_name}_gifs'
-    # convert_folder_webps_to_gifs(input_folder, output_folder)
-
-
     urls_file = 'url.txt'
     with open(urls_file, 'r') as file:
         urls = file.readlines()
@@ -69,4 +71,3 @@ if __name__ == "__main__":
             continue
 
         convert_folder_webps_to_gifs(input_folder, output_folder)
-

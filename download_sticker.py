@@ -12,8 +12,6 @@ async def download_stickers(bot_token, sticker_set_name, output_folder):
     except Exception as e:
         print(f"Failed to create bot: {e}")
         return
-    sticker_set = await bot.get_sticker_set(name=sticker_set_name)
-
     try:
         sticker_set = await bot.get_sticker_set(name=sticker_set_name)
     except Exception as e:
